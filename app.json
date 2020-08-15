@@ -1,0 +1,12 @@
+{
+  "name": "flipcard",
+  "displayName": "flipcard",
+  "expo": {
+    "name": "flipcard",
+    "slug": "flipcard",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
