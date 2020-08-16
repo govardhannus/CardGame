@@ -3,14 +3,14 @@ import React, { Component } from "react";
 import {
     View,
     TouchableOpacity,
-    Animated,
     StyleSheet,
     Text,
     FlatList,
     Alert
 } from "react-native";
+import Card from './Card'
 
-export default class SavedBooks extends Component {
+export default class CardGame extends Component {
 
     constructor(props) {
         super(props)
@@ -21,25 +21,7 @@ export default class SavedBooks extends Component {
     }
 
     componentWillMount() {
-        this.animatedValue = new Animated.Value(0);
-        this.value = 0;
-        this.animatedValue.addListener(({ value }) => { this.value = value })
         this.generateRandom()
-    }
-
-
-    frontCardStyle(index) {
-        this.frontInterpolate = this.animatedValue.interpolate({
-            inputRange: [0, 180],
-            outputRange: ['0deg', '180deg']
-
-        })
-
-        const frontAnimatedStyle = {
-            transform: [{ rotateY: this.frontInterpolate }]
-        }
-
-        return frontAnimatedStyle
     }
 
     changeActiveCard = (index) => {
@@ -103,7 +85,6 @@ export default class SavedBooks extends Component {
               );
         }
 
-        this.flipCard();
     }
 
     closeCard(index){
@@ -157,41 +138,11 @@ export default class SavedBooks extends Component {
         }
     }
 
-
-    flipCard(item) {
-        Animated.spring(this.animatedValue, {
-            toValue: 180,
-            friction: 8,
-            tension: 10
-        }).start();
-    }
     render() {
         const renderItem = ({ item, index }) => (
             <TouchableOpacity onPress={() => this.changeActiveCard(index, item) }>
-                <Animated.View key={index} style={[styles.cardStyle, styles.flipCardBack]}>
-                    <Animated.View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Animated.View style={{ backgroundColor: "#eee", borderRadius: 10, overflow: "hidden" }}>
-                            <Animated.View style={{ width: 100, height: 150 }}>
-                                <Text style={{ alignSelf: 'center', height: 100, lineHeight: 100, color: "#FF0000", fontSize: 18, }}>
-                                    {item.value}
-                                </Text>
-                            </Animated.View>
-                        </Animated.View>
-                    </Animated.View>
-                </Animated.View>
-                <Animated.View key={index} style={[item.open && this.frontCardStyle(), styles.cardStyle]}>
-                    <Animated.View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Animated.View style={{ backgroundColor: "#87cefa", borderRadius: 10, overflow: "hidden" }}>
-                            <Animated.View style={{ width: 100, height: 150 }}>
-                                <Text style={{ alignSelf: 'center', height: 100, lineHeight: 100, color: "#FFFFFF", fontSize: 18, }}>
-                                    ?
-                                </Text>
-                            </Animated.View>
-                        </Animated.View>
-                    </Animated.View>
-                </Animated.View>
+                <Card item={item}></Card>
             </TouchableOpacity>
-
         );
 
         return (
@@ -222,17 +173,6 @@ export default class SavedBooks extends Component {
 }
 
 const styles = StyleSheet.create({
-    cardStyle: {
-        height: 150,
-        width: 100,
-        marginTop:20,
-        marginBottom:20,
-        backfaceVisibility: 'hidden',
-    },
-    flipCardBack: {
-        position: "absolute",
-        top: 0,
-    },
     row: {
         flex: 1,
         flexDirection: 'row',
